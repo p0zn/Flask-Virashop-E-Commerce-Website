@@ -18,7 +18,7 @@ import paypalrestsdk
 
 
 
-# connect_str = "DefaultEndpointsProtocol=https;AccountName=virashopimages;AccountKey=vknJ2TbCHwYC+tL1qph95iUCiQBKYdxhW5mheNTXF6NEHoAqSs30WcjUHSqCI3jpMNEnQkNcFGfY+ASteiVdiA==;EndpointSuffix=core.windows.net"
+# connect_str = ""
 # container_name = "images"
 # blob_service_client = BlobServiceClient.from_connection_string(conn_str = connect_str)
 
@@ -377,8 +377,8 @@ def clearcart():
 
 paypalrestsdk.configure({
   "mode": "sandbox", # sandbox or live
-  "client_id": "AS6A73Yeyx9E1GVkcE3F2Hehr4GGWsmaOx6Zieov6uYlQ5w5t9SVgqszFodRSeqNcHtGHXVrZSnDMdwz",
-  "client_secret": "EMEiEUkGBZdLECcCJeEHY4VkUNw9qmOmGv_S3LfXbLYeqnRU0FWtH31PdjBgIvc7n8P4lR2AP3v8vSbf" })
+  "client_id": "",
+  "client_secret": "" })
 
 
 @login_required
