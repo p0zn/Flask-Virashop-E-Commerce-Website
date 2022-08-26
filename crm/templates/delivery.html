@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+              <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Delivery Informations</span></h5>
+              <br>
+                <form action="{{url_for('delivery')}}" method="POST">
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputEmail4">Name</label>
+                        <input type="text" name="name" class="form-control" id="inputName">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputPassword4">Last Name</label>
+                        <input type="text" name="lastname" class="form-control" id="inputLastName">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAddress">Address</label>
+                      <input type="text input-lg" name="address1" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAddress2">Address 2</label>
+                      <input type="text" name="address2" class="form-control input-lg" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">Phone</label>
+                        <input type="text" name="phone_number" class="form-control" id="inputCity" placeholder="+90">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">City</label>
+                        <input type="text" name="city" class="form-control" id="inputCity">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">State</label>
+                        <input type="text" name="state" class="form-control" id="inputState">
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="inputZip">Zip Code</label>
+                        <input type="text" name="zip" class="form-control" id="inputZip">
+                      </div>
+                    </div>
+                  </div>
+                
+              <div class="col-lg-4">        
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5>Total : ${{before_shipping_grandtotal}}</h5>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Complate The Payment</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Cart End -->
+
+
+{% endblock content %}

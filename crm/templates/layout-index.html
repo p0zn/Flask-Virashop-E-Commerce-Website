@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Vira Shop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">  
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ url_for('static',filename="lib/animate/animate.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename="lib/owlcarousel/assets/owl.carousel.min.css") }}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ url_for('static',filename="css/style.css") }}" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/favicon.ico')}}">
+
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+    
+
+<body>
+    
+    {% include "includes/navbar.html" %}
+
+
+          
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'message' %}
+                  <div class="alert alert-warning" role="alert">
+                {% else %}
+                  <div class="alert alert-{{ category }}" role="alert">
+                {% endif %}
+                  {{ message }}
+                </div>
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+
+         
+
+    {% block content %}
+
+    
+    {% endblock content  %}
+
+    
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static',filename="lib/easing/easing.min.js") }}"></script>
+    <script src="{{ url_for('static',filename="lib/owlcarousel/owl.carousel.min.js") }}"></script>
+  
+    <!-- Contact Javascript File -->
+    <script src="{{ url_for('static',filename="mail/jqBootstrapValidation.min.js") }}"></script>
+    <script src="{{ url_for('static',filename="mail/contact.js") }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static',filename="js/main.js") }}"></script>
+
+     <!-- Rating Javascript -->
+
+     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+     <script src="{{ url_for('static',filename="js/rating/rate.js") }}"></script>
+
+     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
+ 
+</body>
+
+</html>
+

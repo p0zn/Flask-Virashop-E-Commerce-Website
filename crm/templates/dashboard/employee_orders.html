@@ -1,0 +1,63 @@
+{% extends 'dashboard/dashboard-layout.html' %}
+
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Orders /</span> Order Management</h4>
+
+
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+        <h5 class="card-header">Customers Orders</h5>
+        <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Invoice Number</th>
+                <th>Customer Name</th>
+                <th>Order Date</th>
+                <th>Cargo Status</th>
+                <th>Order Details</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            <tr>
+                {% for i in all_orders %}
+                    {% for j,v in i.orders.items() %}
+                    {% set seller_id = v['seller'] | int %}
+                            {% if seller_id == current_user.id  %}
+                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{i.id}}</strong></td>
+                                <td>{{i.invoice}}</td>
+                                <td>{{i.name}}</td>
+                                <td>{{i.date_created}}</td>
+                                {% if i.order_status == 0 %}
+                                    <td>Order Confirmed</td>
+                                {% elif i.order_status == 1 %}
+                                    <td>Preparing</td>
+                                {% elif i.order_status == 2 %}
+                                    <td>On the way</td>
+                                {% elif i.order_status == 3 %}
+                                    <td>Delivered</td>
+                                {% endif %}
+                                <td><a class="btn rounded-pill btn-primary" href="{{ url_for('employee_orders_detail', id = i.id) }}">See Details</a><td>        
+                        </tr>
+                            {% endif %}
+                    {% endfor %}
+                {% endfor %}  
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
+
+    </div>
+</div>
+
+
+
+{% endblock content %}

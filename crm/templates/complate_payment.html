@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                {% for key,product in session['Shoppingcart'].items() %}
+                <div class="card-body p-0">
+                    <div class="card shadow-0 border mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    {% if product.image %}
+                                    <img src="{{url_for('static', filename='img/' + product.image)}}" class="img-fluid" alt="Phone">
+                                    {% else %}
+                                    <img src="{{url_for('static', filename='img/default-product.jpg')}}" class="img-fluid" alt="Phone">
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0">{{product.name}}</p>
+                                </div>
+                                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small">Price : ${{product.price}}</p>
+                                </div>
+                                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small">Quantity: {{product.quantity}}</p>
+                                </div>
+                            </div>
+                            <hr class="mb-4" style="background-color: #FFD333; opacity: 1;">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-0">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5>Total Price : ${{before_shipping_grandtotal}}</h5>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div id="paypal-button"></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+    <script>
+        var CREATE_PAYMENT_URL  = 'http://127.0.0.1:5000/payment';
+        var EXECUTE_PAYMENT_URL = 'http://127.0.0.1:5000/execute';
+    
+        paypal.Button.render({
+    
+            env: 'sandbox', // Or 'sandbox'
+    
+            commit: true, // Show a 'Pay Now' button
+    
+            payment: function() {
+                return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+                    return data.paymentID;
+                });
+            },
+    
+            onAuthorize: function(data) {
+                return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                    paymentID: data.paymentID,
+                    payerID:   data.payerID
+                }).then(function(res) {
+    
+                    console.log(res.success)
+                    // The payment is complete!
+                    // You can now show a confirmation message to the customer
+                });
+            }
+    
+        }, '#paypal-button');
+    </script>
+
+
+
+
+
+
+
+{% endblock content %}

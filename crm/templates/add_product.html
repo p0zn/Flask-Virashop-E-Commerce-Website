@@ -1,0 +1,104 @@
+{% extends 'dashboard/dashboard-layout.html' %}
+
+{% block content %}
+
+<div class="d-md-flex half">
+    <div class="bg" style="background-image: url('static/img/bg_1.jpg');"></div>
+
+      <div class="container">
+
+                <br><br>
+                <h3>{{ legend }}</h3>
+                <hr>
+             
+              <form action="" method="POST" enctype="multipart/form-data">
+                {{form.hidden_tag()}}
+                <div class="form-group last mb-3">
+                  {{form.ProductName.label(class="form-control-label")}}
+                  {{form.ProductName(class="form-control form-control-lg")}}
+                </div>
+                <div class="form-group last mb-3">
+                  {{form.CategoryId.label(class="form-control-label")}}
+                  {{form.CategoryId(class="form-control form-control-lg")}}
+                </div>
+                <div class="form-group last mb-3">
+                  {{form.QuantityPerUnit.label(class="form-control-label")}}
+                  {{form.QuantityPerUnit(class="form-control form-control-lg")}}
+                </div>
+                
+                <div class="form-group last mb-3">
+                    {{form.UnitPrice.label(class="form-control-label")}}
+                    {{form.UnitPrice(class="form-control form-control-lg")}}
+                  </div>
+                
+                <div class="form-group last mb-3">
+                    {{form.UnitInStock.label(class="form-control-label")}}
+                    {{form.UnitInStock(class="form-control form-control-lg")}}
+                </div>
+                
+                <div class="form-group last mb-3">
+                    {{form.Description.label(class="form-control-label")}}
+                    {{form.Description(class="form-control form-control-lg")}}
+                </div>
+                
+                <div class = "row">
+                <div class="col-md-4">
+									{{ form.image_1 }}
+									{{ form.image_1.label(class="form-control-file") }}
+									{% if form.image_1.errors %}
+										{% for error in form.image_1.errors %}
+											<span class="text-danger"> {{ error }} </span> 
+											<br>
+										{% endfor %}
+									{% endif %}	
+								
+								</div>
+
+                <div class="col-md-4">
+									{{ form.image_2 }}
+									{{ form.image_2.label(class="form-control-file") }}
+									{% if form.image_2.errors %}
+										{% for error in form.image_2.errors %}
+											<span class="text-danger"> {{ error }} </span> 
+											<br>
+										{% endfor %}
+									{% endif %}	
+								
+								</div>
+
+                <div class="col-md-4">
+									{{ form.image_3 }}
+									{{ form.image_3.label(class="form-control-file") }}
+									{% if form.image_3.errors %}
+										{% for error in form.image_3.errors %}
+											<span class="text-danger"> {{ error }} </span> 
+											<br>
+										{% endfor %}
+									{% endif %}	
+								
+								</div>
+              </div>
+              <br>
+                <div class="form-group">
+                  {{ form.Submit(class="btn btn-outline-primary")}}
+                </div>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+  </div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}

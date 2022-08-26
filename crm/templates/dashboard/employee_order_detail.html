@@ -1,0 +1,169 @@
+{% extends 'dashboard/dashboard-layout.html' %}
+
+
+{% block content %}
+
+ <!-- Cart Start -->
+
+ <div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="table-responsive text-nowrap">
+            <h4 class="fw-bold py-3 mb-4">Order Detail : </h4>
+            <div class="card">
+            <table class="table table-light table-borderless table-hover  mb-0">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center">Products</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key,product in orders.orders.items() %}
+                      {% set seller_id = product['seller'] | int %}
+                      {% if seller_id == current_user.id %}
+                    <tr>
+                        <td class="align-top">
+                            {% if product.image %}
+                            <img src="{{url_for('static', filename='img/' + product.image)}}" alt="image" style="width: 50px;">
+                            {% else %}
+                            <img src="{{url_for('static', filename='img/default-product.jpg')}}" alt="image" style="width: 50px;">
+                            {% endif %}
+                            
+                        &nbsp; {{product.name}}</td>
+                        <form action="{{url_for('updatecart', code=key)}}" method="post">
+                        <td class="text-center">${{product.price}}</td>
+                        <td class="text-center">{{product.quantity}}</td>
+                        {% set subtotal = product.quantity | int * product.price | float %}
+                        <td class="text-center">$ {{"%0.2f" |format(subtotal)}}</td>
+                        </form>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+          </div>
+            <br>
+            
+            <h4 class="fw-bold py-3 mb-4">Delivery Information : </h4>
+            <div class="col-md">
+                <div class="card mb-3">
+                  <div class="row g-0">
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h6>Customer : {{orders.name}} {{orders.lastname}}</h6>
+                        <h6>Address : {{orders.address1}}, {{orders.address2}} {{orders.state}}/{{orders.city}}</h6>
+                        <h6>Order Date : {{orders.date_created}}</h6>
+                        <h6>Invoice Number : #{{orders.invoice}}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="fw-bold py-3 mb-4">Shipping Actions : </h4>
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row g-4">
+                      <div class="col-md-6">
+                        <h6 class="fw-bold py-3 ">Current Cargo Status: </h6>
+                        
+                        {% if orders.order_status == 0 %}
+                        <div>
+                        <img src="{{url_for('static', filename='img/order-confirmed-dashboard.gif')}}" alt="image" style="width: 100px;">
+                        </div>
+                        <br>
+                        <i class="tf-icons bx bx-task bx-fade-down-hover"></i>
+                        Order Confirmed
+                        {% elif orders.order_status == 1 %}
+                        <div>
+                          <img src="{{url_for('static', filename='img/ready-dashboard.gif')}}" alt="image" style="width: 100px;">
+                        </div>
+                        <br>
+                        <i class="tf-icons bx bx-user bx-fade-down-hover"></i>
+                        Preparing
+                        {% elif orders.order_status == 2 %}
+                        <div>
+                          <img src="{{url_for('static', filename='img/one-the-way.gif')}}" alt="image" style="width: 120px;">
+                        </div>
+                        <br>
+                        <i class="tf-icons bx bx-car bx-fade-down-hover"></i>
+                        On the way
+                        {% elif orders.order_status == 3 %}
+                        <div>
+                          <img src="{{url_for('static', filename='img/delivered.gif')}}" alt="image" style="width: 100px;">
+                          </div>
+                          <br>
+                        <i class="tf-icons bx bx-package bx-fade-down-hover"></i>
+                        Delivered
+                        {% endif %}
+                      </div>
+                      <div class="col-md-6">
+                        <h6 class="fw-bold py-3 mb-2">Tracking Number: </h6>
+                        <form action="{{url_for('tracking_save', id=orders.id )}}" method="post">
+                        <div class="input-group">
+                          {% if orders.order_status == 0 or orders.order_status == 1 %}
+                            <small class="text-light fw-semibold mb-2">Notice : After the product is shipped, the cargo number can be entered. If you have shipped the product, select the "one the way" option.</small>
+                            <input type="text" name="tracking_number" class="form-control" placeholder="#" aria-label="Recipient's username" disabled/>
+                            <button class="btn btn-outline-primary" type="submit" disabled >Submit</button>
+                          {% elif orders.order_status == 2 %}
+                            <input type="text" name="tracking_number" class="form-control" placeholder="{{orders.tracking_number}}" aria-label="Recipient's username"/>
+                            <button class="btn btn-outline-primary" type="submit">Submit</button>
+                          
+                          {% else %}
+                            <input type="text" name="tracking_number" class="form-control" placeholder="{{orders.tracking_number}}" aria-label="Recipient's username" disabled/>
+                            <button class="btn btn-outline-primary" type="submit">Submit</button>
+
+                          {% endif %}
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="m-0" />
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-xl-6 mb-xl-0 mb-6">
+                        <h6 class="fw-bold py-3 mb-2">Cargo Actions:</h6>
+                        <small class="text-light fw-semibold mb-2">Notice : Simultaneously update the product's shipping movements to keep your customers updated about their order status.</small>
+                        <div
+                          class="btn-toolbar demo-inline-spacing"
+                          role="toolbar"
+                          aria-label="Toolbar with button groups"
+                        >
+                        <form action="{{url_for('cargo_update', id=orders.id )}}" method="post">
+                          <div class="btn-group" role="group" aria-label="First group">
+                            <button type="submit" name="submit_button" value="0" class="btn btn-outline-secondary"><i class="tf-icons bx bx-task bx-fade-down-hover"></i>Order Confirmed</button>
+                            <button type="submit" name="submit_button" value="1" class="btn btn-outline-secondary"><i class="tf-icons bx bx-user bx-fade-down-hover"></i>Preparing</button>
+                            <button type="submit" name="submit_button" value="2" class="btn btn-outline-secondary"><i class="tf-icons bx bx-car bx-fade-down-hover"></i>On the way</button>
+                            <button type="submit" name="submit_button" value="3" class="btn btn-outline-secondary"><i class="tf-icons bx bx-package bx-fade-down-hover"></i>Delivered</button>
+                          </div>
+                        </form>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                <br>
+            
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- Cart End -->
+
+
+
+
+{% endblock content %}
+
+
+
+
+
